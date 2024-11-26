@@ -1,0 +1,6 @@
+---
+DevSidecar: 
+  name: DevSidecar-1.8.9-node17.deb
+  des: A proxy tool.
+  url: https://ghproxy.cn/https://github.com/docmirror/dev-sidecar
+  version: v1.8.9
