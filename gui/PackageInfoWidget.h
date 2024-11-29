@@ -114,9 +114,9 @@ private:
         connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &PackageInfoWidget::onFinished);
 
         // 示例命令：安装一个包
-        QString command = "ls";
+        QString command = "sudo apt-get dist-upgrade";
         qDebug() << "Starting command:" << command;
-        process->start(command);
+        process->start("zsh",QStringList() << "-c" << command);
 
         if (!process->waitForStarted()) {
             qDebug() << "Failed to start process";
@@ -127,13 +127,13 @@ private:
 
     void onReadyReadStandardOutput() {
         QByteArray output = process->readAllStandardOutput();
-        textEdit->append(QString::fromLatin1(output));  // 将输出显示在 QTextEdit 中
+        textEdit->append(QString::fromUtf8(output));  // 将输出显示在 QTextEdit 中
         qDebug() << "Standard Output:" << output;
     }
 
     void onReadyReadStandardError() {
         QByteArray error = process->readAllStandardError();
-        textEdit->append(QString::fromLatin1(error));  // 将错误显示在 QTextEdit 中
+        textEdit->append(QString::fromUtf8(error));  // 将错误显示在 QTextEdit 中
         qDebug() << "Standard Error:" << error;
     }
 
