@@ -1,6 +1,13 @@
 ---
 DevSidecar: 
   name: DevSidecar-1.8.9-node17.deb
-  des: A proxy tool.
+  des: A github tool.
   url: https://ghproxy.cn/https://github.com/docmirror/dev-sidecar
   version: v1.8.9
+ClashVergeRev: 
+  name: Clash.Verge_2.0.1_amd64.deb
+  des: A proxy tool.
+  url: https://ghproxy.cn/https://github.com/clash-verge-rev/clash-verge-rev
+  version: v2.0.1
+
+  # https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_131.0.2903.70-1_amd64.deb?brand=M102

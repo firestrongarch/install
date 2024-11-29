@@ -8,10 +8,10 @@ if __name__ == '__main__':
     for key,value in dic.items():
         menu[index] = f'{key} - {value['des']}'
         index += 1
-    for key,val in menu.items():
-        print(f'[{key}]:{val}')
 
     while True:
+        for key,val in menu.items():
+            print(f'[{key}]:{val}')
         print(' ')
         choice = input('请输入序号(输入0退出):')
         if choice == '0':
