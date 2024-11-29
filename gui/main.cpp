@@ -10,6 +10,8 @@
 #include <QMessageBox>
 #include <qdebug.h>
 #include <yaml-cpp/yaml.h>
+#include <QInputDialog>
+#include <QPushButton>
 
 class PackageInfoWidget : public QWidget {
 public:
@@ -23,6 +25,11 @@ public:
         textEdit->setReadOnly(true);
         layout->addWidget(textEdit);
 
+        QPushButton *button = new QPushButton("Select Package", this);
+        layout->addWidget(button);
+
+        connect(button, &QPushButton::clicked, this, &PackageInfoWidget::showPackageSelection);
+
         if (loadPackageInfo()) {
             textEdit->setText(packageInfoText);
         } else {
@@ -32,6 +39,7 @@ public:
 
 private:
     QString packageInfoText;
+    QList<QString> packageNames;
 
     bool loadPackageInfo() {
         QFile file("../../packages.yaml");
@@ -53,6 +61,8 @@ private:
                 packageInfoText += QString("Description: %1\n").arg(QString::fromStdString(pkg["des"].as<std::string>()));
                 packageInfoText += QString("URL: %1\n").arg(QString::fromStdString(pkg["url"].as<std::string>()));
                 packageInfoText += QString("Version: %1\n\n").arg(QString::fromStdString(pkg["version"].as<std::string>()));
+
+                packageNames.append(QString::fromStdString(pkg["name"].as<std::string>()));
             }
         } catch (const YAML::Exception &e) {
             QMessageBox::critical(this, "Error", QString::fromStdString(e.what()));
@@ -60,6 +70,16 @@ private:
         }
 
         return true;
+    }
+
+    void showPackageSelection() {
+        bool ok;
+        QString selectedPackage = QInputDialog::getItem(this, "Select Package", "Choose a package:", packageNames, 0, false, &ok);
+
+        if (ok && !selectedPackage.isEmpty()) {
+            QPushButton *button = qobject_cast<QPushButton*>(sender());
+            button->setText(selectedPackage);
+        }
     }
 };
 
