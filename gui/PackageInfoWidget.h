@@ -1,3 +1,4 @@
+#pragma once
 #include <QTextEdit>
 #include <QFile>
 #include <QTextStream>
