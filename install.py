@@ -1,6 +1,19 @@
 import subprocess
 import yaml
 
+def processChoice(selection):
+    if selection['type'] == 'git':
+        name = selection['name']
+        url = selection['url']
+        version = selection['version']
+        subprocess.run(f'sudo wget {url}/releases/download/{version}/{name} -O /tmp/{name}',shell=True)
+        subprocess.run(f'sudo apt install /tmp/{name} -y',shell=True)
+    elif selection['type'] == 'config':
+        for cmd in selection['cmd']:
+            subprocess.run(cmd,shell=True)
+    else :
+        print('不支持的类型')
+
 if __name__ == '__main__':
     dic = yaml.load(open('packages.yaml', 'r'),Loader=yaml.FullLoader)
     menu = {}
@@ -18,8 +31,5 @@ if __name__ == '__main__':
             break
         else :
             key = menu[int(choice)].split(' ')[0]
-            name = dic[key]['name']
-            url = dic[key]['url']
-            version = dic[key]['version']
-            subprocess.run(f'sudo wget {url}/releases/download/{version}/{name} -O /tmp/{name}',shell=True)
-            subprocess.run(f'sudo apt install /tmp/{name} -y',shell=True)
+            processChoice(dic[key])
+
