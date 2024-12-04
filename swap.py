@@ -1,6 +1,7 @@
 import subprocess
 
 if __name__ == '__main__':
+    subprocess.run('sudo mkdir /opt/myswapfile',shell=True)
     subprocess.run('sudo dd if=/dev/zero of=/opt/myswapfile/swapfile bs=1G count=16',shell=True)
     subprocess.run('sudo chmod 600 /opt/myswapfile/swapfile',shell=True)
     subprocess.run('sudo mkswap /opt/myswapfile/swapfile',shell=True)
