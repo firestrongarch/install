@@ -11,6 +11,14 @@ ClashVergeRev:
   des: A proxy tool.
   url: https://ghproxy.cn/https://github.com/clash-verge-rev/clash-verge-rev
   version: v2.0.1
+Code:
+  type: wget
+  des: VisualStudioCode.
+  url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/f1a4fb101478ce6ec82fe9627c43efbf9e98c813/code_1.95.3-1731513102_amd64.deb
+Edge:
+  type: wget
+  des: MicroSoftEdge.
+  url: https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_131.0.2903.86-1_amd64.deb
 GrubConfig:
   type: config
   des: 设置默认启动项为保存的上一次启动项
