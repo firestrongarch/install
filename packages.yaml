@@ -27,3 +27,4 @@ GrubConfig:
     - echo "GRUB_DEFAULT=saved" | sudo tee -a /etc/default/grub
     - sudo update-grub
   # https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_131.0.2903.70-1_amd64.deb?brand=M102
+  # wget http://fishros.com/install -O fishros && . fishros
