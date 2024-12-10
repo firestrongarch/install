@@ -11,6 +11,12 @@ ClashVergeRev:
   des: A proxy tool.
   url: https://ghproxy.cn/https://github.com/clash-verge-rev/clash-verge-rev
   version: v2.0.2
+LocalSend:
+  type: git
+  name: LocalSend-1.16.1-linux-x86-64.deb
+  des: LocalSend is a free, open-source app that allows you to securely share files and messages with nearby devices over your local network without needing an internet connection.
+  url: https://ghproxy.cn/https://github.com/localsend/localsend
+  version: v1.16.1
 Code:
   type: wget
   des: VisualStudioCode.
