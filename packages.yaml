@@ -35,3 +35,5 @@ GrubConfig:
   # https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_131.0.2903.70-1_amd64.deb?brand=M102
   # wget http://fishros.com/install -O fishros && . fishros
   # sudo apt install thunar-archive-plugin
+  # krita krita-l10n 
+  # xfce: xfce4-goodies 
