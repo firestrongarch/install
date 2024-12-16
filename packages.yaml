@@ -25,6 +25,10 @@ Edge:
   type: wget
   des: MicroSoftEdge.
   url: https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_131.0.2903.86-1_amd64.deb
+Utools:
+  type: wget
+  des: Utools.
+  url: https://open.u-tools.cn/download/utools_6.0.0_amd64.deb
 GrubConfig:
   type: config
   des: 设置默认启动项为保存的上一次启动项
