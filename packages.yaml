@@ -17,6 +17,12 @@ LocalSend:
   des: LocalSend is a free, open-source app that allows you to securely share files and messages with nearby devices over your local network without needing an internet connection.
   url: https://ghproxy.cn/https://github.com/localsend/localsend
   version: v1.16.1
+BalenaEtcher:
+  type: git
+  name: balena-etcher_1.19.25_amd64.deb
+  des: Etcher is a powerful OS image flasher built with web technologies to ensure flashing an SDCard or USB drive is a pleasant and safe experience. 
+  url: https://ghproxy.cn/https://github.com/balena-io/etcher
+  version: v1.19.25
 Code:
   type: wget
   des: VisualStudioCode.
