@@ -1,49 +1,57 @@
----
-DevSidecar: 
+proxy:
+  enabled: true
+  current_index: 4
+  urls:
+  - ''
+  - https://gh-proxy.com/
+  - https://v6.gh-proxy.org/
+  - https://fastly.gh-proxy.com/
+  - https://edgeone.gh-proxy.com/
+  - https://ghproxy.cn/
+  - https://gh.api.99988866.xyz/
+  - https://mirror.ghproxy.com/
+  - https://ghps.cc/
+  - https://ghproxy.net/
+  - https://gh-proxy.ygxz.in/
+  - https://github.moeyy.xyz/
+  - https://gh.ddlc.top/
+ClashVergeRev:
   type: git
-  name: DevSidecar-1.8.9-node17.deb
-  des: A github tool.
-  url: https://ghproxy.cn/https://github.com/docmirror/dev-sidecar
-  version: v1.8.9
-ClashVergeRev: 
-  type: git
-  name: Clash.Verge_2.0.2_amd64.deb
+  name: Clash.Verge_2.4.7_amd64.deb
   des: A proxy tool.
-  url: https://ghproxy.cn/https://github.com/clash-verge-rev/clash-verge-rev
-  version: v2.0.2
+  url: https://github.com/clash-verge-rev/clash-verge-rev
+  version: v2.4.7
 LocalSend:
   type: git
-  name: LocalSend-1.16.1-linux-x86-64.deb
-  des: LocalSend is a free, open-source app that allows you to securely share files and messages with nearby devices over your local network without needing an internet connection.
-  url: https://ghproxy.cn/https://github.com/localsend/localsend
-  version: v1.16.1
+  name: LocalSend-1.17.0-linux-x86-64.deb
+  des: LocalSend is a free, open-source app that allows you to securely share files
+    and messages with nearby devices over your local network without needing an internet
+    connection.
+  url: https://github.com/localsend/localsend
+  version: v1.17.0
 BalenaEtcher:
   type: git
-  name: balena-etcher_1.19.25_amd64.deb
-  des: Etcher is a powerful OS image flasher built with web technologies to ensure flashing an SDCard or USB drive is a pleasant and safe experience. 
-  url: https://ghproxy.cn/https://github.com/balena-io/etcher
-  version: v1.19.25
+  name: balena-etcher_2.1.0_amd64.deb
+  des: Etcher is a powerful OS image flasher built with web technologies to ensure
+    flashing an SDCard or USB drive is a pleasant and safe experience.
+  url: https://github.com/balena-io/etcher
+  version: v2.1.0
 Code:
   type: wget
   des: VisualStudioCode.
-  url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/f1a4fb101478ce6ec82fe9627c43efbf9e98c813/code_1.95.3-1731513102_amd64.deb
+  url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/5c5d3ac991df8f1e2b73c3959c77857ac25f9644/code_1.115.0-1744517356_amd64.deb
 Edge:
   type: wget
   des: MicroSoftEdge.
-  url: https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_131.0.2903.86-1_amd64.deb
+  url: https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_135.0.3179.73-1_amd64.deb
 Utools:
   type: wget
   des: Utools.
-  url: https://open.u-tools.cn/download/utools_6.0.0_amd64.deb
+  url: https://open.u-tools.cn/download/utools_7.7.0_amd64.deb
 GrubConfig:
   type: config
   des: 设置默认启动项为保存的上一次启动项
-  cmd: 
-    - echo "GRUB_SAVEDEFAULT=true" | sudo tee -a /etc/default/grub
-    - echo "GRUB_DEFAULT=saved" | sudo tee -a /etc/default/grub
-    - sudo update-grub
-  # https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_131.0.2903.70-1_amd64.deb?brand=M102
-  # wget http://fishros.com/install -O fishros && . fishros
-  # sudo apt install thunar-archive-plugin
-  # krita krita-l10n 
-  # xfce: xfce4-goodies 
+  cmd:
+  - echo "GRUB_SAVEDEFAULT=true" | sudo tee -a /etc/default/grub
+  - echo "GRUB_DEFAULT=saved" | sudo tee -a /etc/default/grub
+  - sudo update-grub
