@@ -1,6 +1,7 @@
 import subprocess
 import yaml
 import time
+import os
 
 
 def get_current_proxy(dic):
@@ -101,8 +102,8 @@ def processChoice(selection, dic):
     """处理安装选择，自动切换代理"""
     proxy_url = ""
 
-    # 对于git类型，尝试自动寻找可用代理
-    if selection['type'] == 'git':
+    # 对于git和archive类型，尝试自动寻找可用代理
+    if selection['type'] in ('git', 'archive'):
         proxy_url = find_working_proxy(dic, selection)
 
     if selection['type'] == 'git':
@@ -131,6 +132,31 @@ def processChoice(selection, dic):
     elif selection['type'] == 'config':
         for cmd in selection['cmd']:
             subprocess.run(cmd, shell=True)
+    elif selection['type'] == 'archive':
+        # 压缩包类型（如 ROS2）
+        name = selection['name']
+        url = proxy_url + selection['url']
+        version = selection['version']
+        install_path = selection.get('install_path', '/opt')
+        # 展开用户主目录路径
+        install_path = os.path.expanduser(install_path)
+        download_url = f'{url}/releases/download/{version}/{name}'
+        print(f'\n正在下载: {download_url}')
+
+        if download_file(download_url, f'/tmp/{name}'):
+            # 创建安装目录（用户目录不需要sudo）
+            subprocess.run(f'mkdir -p {install_path}', shell=True)
+            # 解压到安装目录
+            print(f'正在解压到 {install_path}...')
+            subprocess.run(
+                f'tar -xjf /tmp/{name} -C {install_path}', shell=True)
+            print(f'ROS2 安装完成！')
+            print(f'使用方式: {selection.get("setup_cmd", "")}')
+            print(
+                f'建议添加到 ~/.zshrc: echo "{selection.get("setup_cmd", "")}" >> ~/.zshrc')
+        else:
+            print("下载失败")
+            return
     else:
         print('不支持的类型')
 
