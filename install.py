@@ -62,8 +62,14 @@ def find_working_proxy(dic, selection):
     urls = proxy_config.get('urls', [""])
     current_index = proxy_config.get('current_index', 0)
 
-    # 测试当前代理
-    test_url = selection['url']
+    # 根据类型获取测试URL
+    if 'url' in selection:
+        test_url = selection['url']
+    elif 'repos_url' in selection:
+        test_url = selection['repos_url']
+    else:
+        test_url = "https://github.com"
+
     current_proxy = urls[current_index] if current_index < len(urls) else ""
 
     print(f"\n正在测试连接...")
@@ -102,8 +108,8 @@ def processChoice(selection, dic):
     """处理安装选择，自动切换代理"""
     proxy_url = ""
 
-    # 对于git和archive类型，尝试自动寻找可用代理
-    if selection['type'] in ('git', 'archive'):
+    # 对于git、archive和source类型，尝试自动寻找可用代理
+    if selection['type'] in ('git', 'archive', 'source'):
         proxy_url = find_working_proxy(dic, selection)
 
     if selection['type'] == 'git':
@@ -157,6 +163,69 @@ def processChoice(selection, dic):
         else:
             print("下载失败")
             return
+    elif selection['type'] == 'source':
+        # 源码编译安装（如 ROS2）
+        workspace = os.path.expanduser(
+            selection.get('workspace', '~/source_build'))
+        repos_url = proxy_url + selection['repos_url']
+
+        print(f'\n=== ROS2 Rolling 源码编译安装 ===')
+        print(f'工作目录: {workspace}')
+
+        # 1. 系统设置
+        print('\n[1/6] 设置系统环境...')
+        subprocess.run(
+            'sudo apt update && sudo apt install -y locales', shell=True)
+        subprocess.run('sudo locale-gen en_US en_US.UTF-8', shell=True)
+        subprocess.run(
+            'sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8', shell=True)
+
+        # 2. 添加 ROS2 apt 仓库
+        print('\n[2/6] 添加 ROS2 apt 仓库...')
+        subprocess.run(
+            'sudo apt install -y software-properties-common curl', shell=True)
+        subprocess.run('sudo add-apt-repository -y universe', shell=True)
+
+        # 下载并安装 ros2-apt-source
+        apt_source_deb = '/tmp/ros2-apt-source.deb'
+        apt_source_url = proxy_url + \
+            'https://github.com/ros-infrastructure/ros-apt-source/releases/latest/download/ros2-apt-source_latest_all.deb'
+        if download_file(apt_source_url, apt_source_deb):
+            subprocess.run(f'sudo dpkg -i {apt_source_deb}', shell=True)
+
+        # 3. 安装开发工具
+        print('\n[3/6] 安装开发工具...')
+        subprocess.run('sudo apt update', shell=True)
+        subprocess.run('sudo apt install -y python3-mypy python3-pip python3-pytest python3-pytest-cov python3-pytest-mock python3-pytest-repeat python3-pytest-rerunfailures python3-pytest-runner python3-pytest-timeout ros-dev-tools python3-vcstool python3-colcon-common-extensions', shell=True)
+
+        # 4. 创建工作空间并下载源码
+        print('\n[4/6] 创建工作空间并下载源码...')
+        src_path = os.path.join(workspace, 'src')
+        subprocess.run(f'mkdir -p {src_path}', shell=True)
+        subprocess.run(f'wget -O /tmp/ros2.repos "{repos_url}"', shell=True)
+        # 使用浅克隆 (--shallow) 加快下载速度
+        subprocess.run(
+            f'cd {workspace} && vcs import --shallow --input /tmp/ros2.repos src', shell=True)
+
+        # 5. 安装依赖
+        print('\n[5/6] 安装依赖...')
+        subprocess.run('sudo rosdep init 2>/dev/null || true', shell=True)
+        subprocess.run('rosdep update', shell=True)
+        subprocess.run(
+            f'cd {workspace} && rosdep install --from-paths src --ignore-src -y --skip-keys "fastcdr rti-connext-dds-7.7.0 urdfdom_headers"', shell=True)
+
+        # 6. 编译
+        print('\n[6/6] 编译 ROS2（这可能需要较长时间）...')
+        result = subprocess.run(
+            f'cd {workspace} && colcon build --symlink-install --packages-skip image_tools intra_process_demo', shell=True)
+
+        if result.returncode == 0:
+            print(f'\n✓ ROS2 源码编译安装完成！')
+            print(f'使用方式: {selection.get("setup_cmd", "")}')
+            print(
+                f'建议添加到 ~/.zshrc: echo "{selection.get("setup_cmd", "")}" >> ~/.zshrc')
+        else:
+            print('\n✗ 编译失败，请检查错误信息')
     else:
         print('不支持的类型')
 
